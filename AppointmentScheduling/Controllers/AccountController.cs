@@ -1,15 +1,28 @@
 ﻿using AppointmentScheduling.Data;
+using AppointmentScheduling.Models;
+using AppointmentScheduling.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AppointmentScheduling.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _db;
+        
+        UserManager<ApplicationUser> _userManager;
 
-        public AccountController(ApplicationDbContext db)
+        SignInManager<ApplicationUser> _signInManager;
+        RoleManager<IdentityRole> _roleManager;
+
+        public AccountController(ApplicationDbContext db, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
             
         }
 
@@ -25,7 +38,44 @@ namespace AppointmentScheduling.Controllers
         //GET Register File 
         public IActionResult Register()
         {
+            if (!_roleManager.RoleExistsAsync(Helpers.Helper.Admin).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(Helpers.Helper.Admin));
+                _roleManager.CreateAsync(new IdentityRole(Helpers.Helper.Doctor));
+                _roleManager.CreateAsync(new IdentityRole(Helpers.Helper.Doctor));
+            }
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel pRegVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = pRegVM.Email,
+                    Email = pRegVM.Email,
+                    Name = pRegVM.Name
+                };
+
+                //When working with identity you have to store it into user manager
+                //CreateSync expects a type of user 
+                //Iaction must async Task as we are waiting to reg a user
+
+                var result = await _userManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, pRegVM.RoleName);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+            }
+            return View();
+            
         }
     }
 
