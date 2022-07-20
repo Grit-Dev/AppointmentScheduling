@@ -13,9 +13,12 @@ namespace AppointmentScheduling.Controllers
             
         }
 
+        //Get Action Method - Login
         public IActionResult Login()
         {
             return View();
         }
+
+        //Post Login Method
     }
 }
