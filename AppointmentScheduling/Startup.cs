@@ -57,6 +57,9 @@ namespace AppointmentScheduling
 
             app.UseRouting();
 
+            //Needs to be added to allow an user once registered to be able to login
+            app.UseAuthentication();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
