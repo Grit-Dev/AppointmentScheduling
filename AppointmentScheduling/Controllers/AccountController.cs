@@ -44,6 +44,7 @@ namespace AppointmentScheduling.Controllers
 
                 if (result.Succeeded)
                 {
+                    var user = _userManager.FindByNameAsync(viewM.Email);
                     RedirectToAction("Index", "Home");
                 }
                 
