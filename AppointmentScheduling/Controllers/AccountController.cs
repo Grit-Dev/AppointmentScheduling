@@ -44,8 +44,8 @@ namespace AppointmentScheduling.Controllers
 
                 if (result.Succeeded)
                 {
-                    var user = _userManager.FindByNameAsync(viewM.Email);
-                    RedirectToAction("Index", "Home");
+                    /*var user = _userManager.FindByNameAsync(viewM.Email);*/
+                    return RedirectToAction("Index", "Home");
                 }
                 
                 ModelState.AddModelError("", "Invalid login attempt");

@@ -22,7 +22,7 @@ namespace AppointmentScheduling.Models.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Role Namew")]
+        [Display(Name = "Role Name")]
 
         public string RoleName { get; set; }
 
