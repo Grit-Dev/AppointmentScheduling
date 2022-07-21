@@ -13,22 +13,16 @@ namespace AppointmentScheduling.Controllers
             _appointmentService = appointmentService;
         }
 
-        public IActionResult DoctorList()
+        public IActionResult Index()
         {
             
-            var aList = _appointmentService.GetDoctorList();  
+            ViewBag.DoctorList = _appointmentService.GetDoctorList();
+            ViewBag.PatientList = _appointmentService.GetPatientList();
 
            
-            return View(aList);
+            return View();
         }
 
-        public IActionResult PatientList()
-        {
 
-            var aList = _appointmentService.GetPatientList();
-
-
-            return View(aList);
-        }
     }
 }
