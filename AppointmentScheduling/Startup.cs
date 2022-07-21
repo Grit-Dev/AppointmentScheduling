@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AppointmentScheduling.Services;
 
 namespace AppointmentScheduling
 {
@@ -35,6 +36,9 @@ namespace AppointmentScheduling
 
             /*services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();*/
+
+            //Adds this as a dependency
+            services.AddTransient<IAppointmentService, AppointmentService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 

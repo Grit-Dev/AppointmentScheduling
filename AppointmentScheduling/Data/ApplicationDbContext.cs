@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AppointmentScheduling.Models.ViewModels;
 
 namespace AppointmentScheduling.Data
 {
@@ -15,5 +16,6 @@ namespace AppointmentScheduling.Data
         {
 
         }
+        public DbSet<AppointmentScheduling.Models.ViewModels.DoctorViewModel> DoctorViewModel { get; set; }
     }
 }
