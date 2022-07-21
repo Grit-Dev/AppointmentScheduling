@@ -34,6 +34,25 @@ namespace AppointmentScheduling.Controllers
 
         //Post Login Method
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel viewM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(viewM.Email, viewM.Password, viewM.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    RedirectToAction("Index", "Home");
+                }
+                
+                ModelState.AddModelError("", "Invalid login attempt");
+            }
+
+            return View(viewM);
+            
+        }
 
         //GET Register File 
         public async Task<IActionResult> Register()
@@ -64,7 +83,7 @@ namespace AppointmentScheduling.Controllers
                 //CreateSync expects a type of user 
                 //Iaction must async Task as we are waiting to reg a user
 
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, pRegVM.Password);
 
                 if (result.Succeeded)
                 {
@@ -73,9 +92,21 @@ namespace AppointmentScheduling.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+
             }
-            return View();
+            return View(pRegVM);
             
+        }
+
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "Account");
         }
     }
 
