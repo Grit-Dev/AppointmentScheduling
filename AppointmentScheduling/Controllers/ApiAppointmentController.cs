@@ -1,4 +1,5 @@
-﻿using AppointmentScheduling.Services;
+﻿using AppointmentScheduling.Models.ViewModels;
+using AppointmentScheduling.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -21,10 +22,13 @@ namespace AppointmentScheduling.Controllers
             loginUserId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
         }
-        public IActionResult Index()
+
+        [HttpPost]
+        [Route("SaveCalendarData"])
+        public IActionResult SaveCalendarData(AppointmentViewModel data)
         {
 
-            return View();
+            return Ok();
         }
     }
 }
