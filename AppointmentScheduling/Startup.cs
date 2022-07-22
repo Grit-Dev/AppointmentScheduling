@@ -42,6 +42,8 @@ namespace AppointmentScheduling
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddHttpContextAccessor();
+
 
             services.AddControllersWithViews();
         }
