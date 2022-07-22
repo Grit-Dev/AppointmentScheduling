@@ -14,8 +14,14 @@ namespace AppointmentScheduling.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-
+            
         }
-        public DbSet<AppointmentScheduling.Models.ViewModels.DoctorViewModel> DoctorViewModel { get; set; }
+
+
+        //Create a table in the DB wand fill it with the class of appointment props 
+        public DbSet<Appointment> Appointments { get; set; }
+
+        //Not too sure why this is here. Commented out for now 
+        /*public DbSet<AppointmentScheduling.Models.ViewModels.DoctorViewModel> DoctorViewModel { get; set; }*/
     }
 }
