@@ -18,5 +18,27 @@ namespace AppointmentScheduling.Helpers
                new SelectListItem{ Value = Helper.Doctor, Text=Helper.Doctor},
            };
         }
+
+        //Nice way to change bookings etc 
+        public static List<SelectListItem> GetTimeDropDown()
+        {
+            int minute = 0;
+            var duration = new List<SelectListItem>();
+
+            for (int counter = 1; counter <= 12; counter++)
+            {
+                duration.Add(new SelectListItem { Value = minute.ToString(), Text = counter + "Hr" });
+                minute = minute + 30;
+
+                duration.Add(new SelectListItem { Value = minute.ToString(), Text = counter + "hr 30 Min" });
+                minute = minute + 30;
+
+                
+            }
+
+            return duration;
+
+
+        }
     }
 }
